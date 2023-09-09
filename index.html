@@ -1,1 +1,68 @@
 
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" >
+<meta name="viewport" content="width = device-width, initial-scale=1.0" >
+<title>Task</title>
+</head>
+<body>
+<form>
+<div class="form-group">
+<label>Select status</label>
+<select id="status" class="form-control">
+<option value="active">Active</option>
+<option value="retired">Retired</option>
+<option value="unknown">Unknown</option>
+<option value="destroyed">Destroyed</option>
+</select>
+</div>
+<button class="btn btn-primary" id="loadButton">Load</button>
+</form>
+<table id="resultHead">
+<thead>
+<tr>
+<th>Capsule ID</th>
+<th>No of missions</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody id="resultBody">
+</tbody>
+</table>
+document.addEventListener('DOMContentLoaded', function(){
+
+const statusDropdown = document.getElementById('status');
+const button = document.getElementById('loadButton');
+const resultHead = document.getElementById('resultHead');
+const resultBody = document.getElementById('resultBOdy');
+
+function statusLoad(status){
+
+// data json
+const data = [
+{id:1, cap_id:"C106", no_of_mission:"3", detail:"Message 1" , status:"active"},
+{id:2, cap_id:"C205", no_of_mission:"2", detail:"Message 2" , status:"retired"},
+{id:3, cap_id:"C206", no_of_mission:"1", detail:"Message 3",  status:"active" },
+{id:4, cap_id:"C107", no_of_mission:"4", detail:"Message 4",  status:"destroyed"}
+];
+
+const filterValue = data.filter(item => item.status === status);
+resultBody.innerHTML = '';
+filterValue.forEach(item=>(
+const row = document.createElement('tr');
+row.innerHTML = `
+<td>${item.cap_id}</td>
+<td>${item.no_of_mission}</td>
+<td>${item.detail}</td>
+`
+));
+
+}
+button.addEventListener('click', function(){
+const selectedItem = statusDropdown .value;
+statusLoad(selectedItem);
+});
+});
+</body>
+</html>
